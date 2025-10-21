@@ -1,13 +1,11 @@
 from datetime import datetime
 
-from app import customer
-
 
 class Shop:
-    def __init__(self, products, name, location):
-        self.products = products
+    def __init__(self, name: str, location: list, products: dict):
         self.name = name
         self.location = location
+        self.products = products
 
 
     def calculate_products_cost(self, product_cart):
@@ -18,12 +16,14 @@ class Shop:
             total += quantity * self.products[product]
         return total
 
-    def print_recept(self):
-        print(f"\nDate: {datetime.now().strftime('%m/%d/%Y %H:%M:%S')}")
+    def print_receipt(self, customer, now=None):
+        if now is None:
+            now = datetime.now()
+            print(f"\nDate: {now.strftime('%m/%d/%Y %H:%M:%S')}")
         print(f"Thanks {customer.name} for your purchase!")
         print(f"You have bought:")
         total = 0
-        for product, quantity in self.products.items():
+        for product, quantity in customer.product_cart.items():
             price = self.products[product]
             cost = price * quantity
             total += cost

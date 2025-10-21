@@ -1,16 +1,18 @@
 import json
-from customer import Customer
-from car import Car
-from shop import Shop
+from pathlib import Path
+from app.customer import Customer
+from app.car import Car
+from app.shop import Shop
 
 
 def shop_trip():
-    with open('shop.json', 'r', encoding="utf-8") as file:
+    config_path = Path(__file__).resolve().parent / "config.json"
+    with open(config_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
     fuel_price = data["FUEL_PRICE"]
 
-    shops = [Shop(shop["products"], shop["location"], shop["name"])
+    shops = [Shop(shop["name"], shop["location"], shop["products"])
             for shop in data["shops"]]
 
     customers = []
@@ -23,13 +25,13 @@ def shop_trip():
         print(f"{customer.name} has {customer.money} dollars")
         for shop in shops:
             total_cost = customer.count_total_trip_cost(shop, fuel_price)
-            print(f"{customer.name}`s trip to the {shop.name} costs {total_cost:.2f}")
+            print(f"{customer.name}'s trip to the {shop.name} costs {total_cost:.2f}")
 
         cheapest_shop = None
         cheapest_cost = None
 
         for shop in shops:
-            total_cost = customer.calculate_fuel_cost(shop, fuel_price)
+            total_cost = customer.count_total_trip_cost(shop, fuel_price)
             if total_cost is None:
                 continue
 
