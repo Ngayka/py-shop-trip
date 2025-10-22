@@ -25,6 +25,8 @@ def shop_trip():
         print(f"{customer.name} has {customer.money} dollars")
         for shop in shops:
             total_cost = customer.count_total_trip_cost(shop, fuel_price)
+            if total_cost is None:
+                print(f"{customer.name} can't buy all products in {shop.name}")
             print(f"{customer.name}'s trip to the {shop.name} costs {total_cost:.2f}")
 
         cheapest_shop = None
@@ -40,10 +42,11 @@ def shop_trip():
                 cheapest_cost = total_cost
 
         if cheapest_shop and customer.money >= cheapest_cost:
-
-            print(f"{customer.name} rides to the {cheapest_shop.name}")
-            customer.buy_products(cheapest_shop)
-            print(f"{customer.name} rides home")
+            customer.buy_products(cheapest_shop, fuel_price)
             print(f"{customer.name} now has {customer.money:.2f} dollars")
         else:
             print(f"{customer.name} doesn't have enough money to make a purchase in any shop")
+
+
+try_one = shop_trip()
+print(try_one)

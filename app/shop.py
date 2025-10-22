@@ -20,13 +20,13 @@ class Shop:
         if now is None:
             now = datetime.now()
             print(f"\nDate: {now.strftime('%m/%d/%Y %H:%M:%S')}")
-        print(f"Thanks {customer.name} for your purchase!")
+        print(f"Thanks, {customer.name}, for your purchase!")
         print(f"You have bought:")
         total = 0
         for product, quantity in customer.product_cart.items():
             price = self.products[product]
             cost = price * quantity
             total += cost
-        print(f"{quantity} {product}s cost {cost} dollars")
+            print(f"{quantity} {product}s for {cost} dollars")
         print(f"Total cost is {total} dollars")
         print("\nSee you again!")
